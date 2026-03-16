@@ -19,7 +19,7 @@ def save_config(config):
 def clear_all_data():
     default_config = {
         "host": "127.0.0.1",
-        "server_port": 5000,
+        "port": 5000,
         "html_title": "我的分享页面",
         "page_title": "欢迎来到我的页面",
         "title_font_size": 36,
@@ -29,9 +29,9 @@ def clear_all_data():
     if os.path.exists("content.html"):
         with open("content.html", "w", encoding="utf-8") as f:
             f.write("")
-    if os.path.exists("log"):
-        shutil.rmtree("log")
-        os.makedirs("log")
+    if os.path.exists("logs"):
+        shutil.rmtree("logs")
+        os.makedirs("logs")
     print("所有数据已清除，配置重置为默认值")
 
 # 主函数直接执行，无任何try/except/finally
@@ -41,7 +41,7 @@ def main():
     if not os.path.exists("config.json"):
         save_config({
             "host": "127.0.0.1",
-            "server_port": 5000,
+            "port": 5000,
             "html_title": "我的分享页面",
             "page_title": "欢迎来到我的页面",
             "title_font_size": 36,

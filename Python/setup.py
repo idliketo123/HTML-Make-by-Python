@@ -34,8 +34,8 @@ def init_environment():
     if not os.path.exists("content.html"):
         with open("content.html", "w", encoding="utf-8") as f:
             f.write("")
-    if not os.path.exists("log"):
-        os.makedirs("log")
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
 
 def run_script(script_name):
     print(f"\n=== 正在运行 {script_name} ===")

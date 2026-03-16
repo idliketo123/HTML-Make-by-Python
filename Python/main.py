@@ -10,24 +10,19 @@ from datetime import datetime
 # 跨平台兼容：固定工作目录
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 os.chdir(SCRIPT_DIR)
-if not os.path.exists("log"):
-    os.makedirs("log")
+if not os.path.exists("logs"):
+    os.makedirs("logs")
 
 # 加载配置
 def load_config():
     try:
         with open("config.json", "r", encoding="utf-8") as f:
-            config = json.load(f)
-        config["port"] = int(config.get("port", 5000))
-        return config
+            return json.load(f)
     except FileNotFoundError:
         print("错误：找不到config.json配置文件，请先运行renew.py初始化")
         sys.exit(1)
     except json.JSONDecodeError:
         print("错误：config.json格式损坏，请重新运行renew.py")
-        sys.exit(1)
-    except (ValueError, TypeError):
-        print("错误：config.json中port必须是数字，请检查配置")
         sys.exit(1)
 
 # 加载网页内容
@@ -157,13 +152,13 @@ def main():
 
     # 保存日志
     log_time = datetime.now().strftime("%Y%m%d-%H%M%S")
-    log_file = os.path.join("log", f"log_{log_time}.html")
-    with open(log_file, "w", encoding="utf-8") as f:
+    logs_file = os.path.join("logs", f"log_{log_time}.html")
+    with open(logs_file, "w", encoding="utf-8") as f:
         f.write(full_html)
-    print(f"网页已保存到日志文件：{log_file}")
+    print(f"网页已保存到日志文件：{logs_file}")
 
     # 启动服务
-    start_port = start_port = config['port']
+    start_port = config.get('server_port', config.get('port', 5000))
     port = find_free_port(start_port)
     server_url = f"http://127.0.0.1:{port}"
     server_address = ("", port)
